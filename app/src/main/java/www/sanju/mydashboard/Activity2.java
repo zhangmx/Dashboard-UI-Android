@@ -14,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Objects;
+
 public class Activity2 extends AppCompatActivity {
 
     private OnScreenLog log;
@@ -40,7 +42,14 @@ public class Activity2 extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        String data = getIntent().getStringExtra("data");
+
+        log.log("");
+        log.log("Data received from Activity 1: " + data);
+        log.log("");
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     }
 
 }

@@ -48,6 +48,8 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:gravity="center"
+                    android:clickable="true"
+                    android:id="@+id/card_1"
                     >
 
                     <ImageView

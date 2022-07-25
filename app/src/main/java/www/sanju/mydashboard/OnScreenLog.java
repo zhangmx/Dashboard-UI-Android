@@ -1,5 +1,6 @@
 package www.sanju.mydashboard;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Handler;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.Date;
 
 
 /**
@@ -24,9 +27,10 @@ public class OnScreenLog {
     private static Activity activity;
     private int maxClicks = 5;
 
-    public OnScreenLog(){}
+    public OnScreenLog() {
+    }
 
-    public OnScreenLog(Activity activity, int ViewID){
+    public OnScreenLog(Activity activity, int ViewID) {
         OnScreenLog.activity = activity;
         tvLog = new TextView(activity.getApplicationContext());
         maintainLog("Log is working");
@@ -42,20 +46,26 @@ public class OnScreenLog {
         RelativeLayout relativeLayout;
         try {
             linearLayout = (LinearLayout) activity.findViewById(ViewID);
-        } catch (ClassCastException e) {linearLayout = null;};
+        } catch (ClassCastException e) {
+            linearLayout = null;
+        }
+        ;
 
         try {
             relativeLayout = (RelativeLayout) activity.findViewById(ViewID);
-        } catch (ClassCastException e) {relativeLayout = null;};
-        if(linearLayout != null) {
+        } catch (ClassCastException e) {
+            relativeLayout = null;
+        }
+        ;
+        if (linearLayout != null) {
             linearLayout.addView(tvLog);
             v = linearLayout;
-        } else if(relativeLayout != null) {
+        } else if (relativeLayout != null) {
             relativeLayout.addView(tvLog);
             v = relativeLayout;
         }
 
-        if(v != null) {
+        if (v != null) {
             v.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -67,7 +77,7 @@ public class OnScreenLog {
 //                            Snackbar.make(v, "Count Clicks = " + cntClicks, Snackbar.LENGTH_SHORT)
 //                                    .setAction("Action", null).show();
 
-                            if (cntClicks > maxClicks-1) {
+                            if (cntClicks > maxClicks - 1) {
                                 setLogVisible(!visibility);
                                 timerHandler.removeCallbacks(rTimeout);
                                 cntClicks = 0;
@@ -82,17 +92,17 @@ public class OnScreenLog {
 
     }
 
-    public void log (String text){
+    public void log(String text) {
         String logText = text;
         maintainLog(logText);
     }
 
-    public void log (int text){
+    public void log(int text) {
         String logText = String.valueOf(text);
         maintainLog(logText);
     }
 
-    public void log (int[] text){
+    public void log(int[] text) {
         StringBuilder builder = new StringBuilder();
         for (int i : text) {
             builder.append(i);
@@ -102,7 +112,7 @@ public class OnScreenLog {
         maintainLog(logText);
     }
 
-    public void log (byte[] text){
+    public void log(byte[] text) {
         StringBuilder builder = new StringBuilder();
         for (int i : text) {
             builder.append(i);
@@ -112,26 +122,29 @@ public class OnScreenLog {
         maintainLog(logText);
     }
 
-    private void maintainLog(String newText){
-        String logText = "";
-        if(logCount<logCountMax) logCount++;
-        for(int i=logCount-1; i>0; i--){
-            logs[i] = logs[i-1];
-        }
-        logs[0] = newText;
-        for(int i=0; i<logCount; i++){
-            if(i<logCount-1) logText+=logs[i]+ System.getProperty("line.separator");
-            else logText+=logs[i];
+    private void maintainLog(String newText) {
+        StringBuilder logText = new StringBuilder();
+
+        if (logCount < logCountMax) logCount++;
+
+        if (logCount - 1 >= 0) System.arraycopy(logs, 0, logs, 1, logCount - 1);
+        String currentDateTimeString = java.text.DateFormat.getDateTimeInstance().format(new Date());
+        logs[0] = currentDateTimeString + ": " + newText;
+
+        for (int i = 0; i < logCount; i++) {
+            if (i < logCount - 1)
+                logText.append(logs[i]).append(System.getProperty("line.separator"));
+            else logText.append(logs[i]);
         }
         tvLog.setText(logText);
     }
 
-    public void clearLog(){
+    public void clearLog() {
         tvLog.setText("");
     }
 
-    public void setLogVisible(boolean visibility){
-        if(visibility) tvLog.setVisibility(View.VISIBLE);
+    public void setLogVisible(boolean visibility) {
+        if (visibility) tvLog.setVisibility(View.VISIBLE);
         else tvLog.setVisibility(View.INVISIBLE);
         OnScreenLog.visibility = visibility;
     }
