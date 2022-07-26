@@ -27,7 +27,8 @@ public class Activity1 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        log = new OnScreenLog(this, R.id.content_1);
+//        log = new OnScreenLog(this, R.id.content_1);
+        log = new OnScreenLog(this, R.id.log_text_view_1);
         log.log("Started log on Activity 1");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

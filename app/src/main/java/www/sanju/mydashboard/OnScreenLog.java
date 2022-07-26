@@ -32,69 +32,72 @@ public class OnScreenLog {
 
     public OnScreenLog(Activity activity, int ViewID) {
         OnScreenLog.activity = activity;
-        tvLog = new TextView(activity.getApplicationContext());
+
+        tvLog = (TextView) activity.findViewById(ViewID);
         maintainLog("Log is working");
-        tvLog.setLayoutParams(new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT));
-        tvLog.setTextColor(Color.BLACK);
-        tvLog.setBackgroundColor(Color.LTGRAY);
-        tvLog.setAlpha((float) 0.4);
 
-        View v = null;
-        LinearLayout linearLayout;
-        RelativeLayout relativeLayout;
-        try {
-            linearLayout = (LinearLayout) activity.findViewById(ViewID);
-        } catch (ClassCastException e) {
-            linearLayout = null;
-        }
-        ;
 
-        try {
-            relativeLayout = (RelativeLayout) activity.findViewById(ViewID);
-        } catch (ClassCastException e) {
-            relativeLayout = null;
-        }
-        ;
-        if (linearLayout != null) {
-            linearLayout.addView(tvLog);
-            v = linearLayout;
-        } else if (relativeLayout != null) {
-            relativeLayout.addView(tvLog);
-            v = relativeLayout;
-        }
-
-        if (v != null) {
-            v.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            cntClicks++;
-                            timerHandler.removeCallbacks(rTimeout);
-                            timerHandler.postDelayed(rTimeout, timeoutTime);
-//                            Snackbar.make(v, "Count Clicks = " + cntClicks, Snackbar.LENGTH_SHORT)
-//                                    .setAction("Action", null).show();
-
-                            if (cntClicks > maxClicks - 1) {
-                                setLogVisible(!visibility);
-                                timerHandler.removeCallbacks(rTimeout);
-                                cntClicks = 0;
-                            }
-                            break;
-
-                    }
-                    return false;
-                }
-            });
-        }
+//        tvLog = new TextView(activity.getApplicationContext());
+//        maintainLog("Log is working");
+//        tvLog.setLayoutParams(new RelativeLayout.LayoutParams(
+//                RelativeLayout.LayoutParams.WRAP_CONTENT,
+//                RelativeLayout.LayoutParams.WRAP_CONTENT));
+//        tvLog.setTextColor(Color.BLACK);
+//        tvLog.setBackgroundColor(Color.LTGRAY);
+//        tvLog.setAlpha((float) 0.4);
+//
+//        View v = null;
+//        LinearLayout linearLayout;
+//        RelativeLayout relativeLayout;
+//        try {
+//            linearLayout = (LinearLayout) activity.findViewById(ViewID);
+//        } catch (ClassCastException e) {
+//            linearLayout = null;
+//        }
+//
+//        try {
+//            relativeLayout = (RelativeLayout) activity.findViewById(ViewID);
+//        } catch (ClassCastException e) {
+//            relativeLayout = null;
+//        }
+//
+//        if (linearLayout != null) {
+//            linearLayout.addView(tvLog);
+//            v = linearLayout;
+//        } else if (relativeLayout != null) {
+//            relativeLayout.addView(tvLog);
+//            v = relativeLayout;
+//        }
+//
+//        if (v != null) {
+//            v.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    switch (event.getAction()) {
+//                        case MotionEvent.ACTION_DOWN:
+//                            cntClicks++;
+//                            timerHandler.removeCallbacks(rTimeout);
+//                            timerHandler.postDelayed(rTimeout, timeoutTime);
+////                            Snackbar.make(v, "Count Clicks = " + cntClicks, Snackbar.LENGTH_SHORT)
+////                                    .setAction("Action", null).show();
+//
+//                            if (cntClicks > maxClicks - 1) {
+//                                setLogVisible(!visibility);
+//                                timerHandler.removeCallbacks(rTimeout);
+//                                cntClicks = 0;
+//                            }
+//                            break;
+//
+//                    }
+//                    return false;
+//                }
+//            });
+//        }
 
     }
 
     public void log(String text) {
-        String logText = text;
-        maintainLog(logText);
+        maintainLog(text);
     }
 
     public void log(int text) {
