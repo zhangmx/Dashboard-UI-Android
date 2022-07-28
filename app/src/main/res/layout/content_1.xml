@@ -20,11 +20,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <EditText
             android:id="@+id/log_text_view_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
+            android:maxLines="5"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
             android:text="" />
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>
